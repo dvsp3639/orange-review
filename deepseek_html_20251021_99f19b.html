@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Restaurant Review</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffddb3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #ff8c00, #ffa500);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .form-container {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .rating-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .rating-title {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .star {
+            font-size: 40px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .star:hover,
+        .star.active {
+            color: #ff8c00;
+        }
+        
+        .rating-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #ff8c00, #ffa500);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .thank-you {
+            display: none;
+            text-align: center;
+            padding: 40px 30px;
+        }
+        
+        .thank-you i {
+            font-size: 60px;
+            color: #ff8c00;
+            margin-bottom: 20px;
+        }
+        
+        .thank-you h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .thank-you p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .restaurant-info {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .error-message {
+            color: #ff3860;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .star {
+                font-size: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>How was your experience at Orange Restaurant?</h1>
+            <p>We value your feedback to improve our service</p>
+        </div>
+        
+        <form id="review-form" class="form-container" action="https://formspree.io/f/mldpkpzj" method="POST">
+            <div class="form-group">
+                <label for="contact">Your Email/Mobile No (Optional)</label>
+                <input type="text" id="contact" name="contact" placeholder="Enter your email or phone number">
+            </div>
+            
+            <div class="rating-container">
+                <div class="rating-title">Rate Your Experience</div>
+                <div class="stars">
+                    <i class="far fa-star star" data-rating="1"></i>
+                    <i class="far fa-star star" data-rating="2"></i>
+                    <i class="far fa-star star" data-rating="3"></i>
+                    <i class="far fa-star star" data-rating="4"></i>
+                    <i class="far fa-star star" data-rating="5"></i>
+                </div>
+                <div class="rating-text" id="rating-text">Tap to rate</div>
+                <input type="hidden" id="rating" name="rating" value="0">
+                <input type="hidden" id="rating-stars" name="rating_stars" value="">
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Your Review</label>
+                <textarea id="message" name="message" placeholder="Tell us about your dining experience..."></textarea>
+                <div class="error-message" id="message-error">Please provide your review</div>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submit-btn">Submit Review</button>
+            
+            <div class="restaurant-info">
+                Thank you for dining at Orange Restaurant!
+            </div>
+        </form>
+        
+        <div class="thank-you" id="thank-you">
+            <i class="fas fa-check-circle"></i>
+            <h2>Thank You!</h2>
+            <p>Your feedback has been submitted successfully. We appreciate you taking the time to share your experience with us.</p>
+            <div class="restaurant-info" style="margin-top: 30px;">
+                We hope to see you again soon at Orange Restaurant!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('review-form');
+            const stars = document.querySelectorAll('.star');
+            const ratingInput = document.getElementById('rating');
+            const ratingStarsInput = document.getElementById('rating-stars');
+            const ratingText = document.getElementById('rating-text');
+            const submitBtn = document.getElementById('submit-btn');
+            const reviewForm = document.getElementById('review-form');
+            const thankYou = document.getElementById('thank-you');
+            const messageError = document.getElementById('message-error');
+            let selectedRating = 0;
+            
+            // Rating stars functionality
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    selectedRating = rating;
+                    ratingInput.value = rating;
+                    
+                    // Create star representation for email
+                    let starRepresentation = "";
+                    for (let i = 1; i <= 5; i++) {
+                        if (i <= rating) {
+                            starRepresentation += "★";
+                        } else {
+                            starRepresentation += "☆";
+                        }
+                    }
+                    ratingStarsInput.value = starRepresentation;
+                    
+                    // Update stars appearance
+                    stars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.classList.remove('far');
+                            s.classList.add('fas', 'active');
+                        } else {
+                            s.classList.remove('fas', 'active');
+                            s.classList.add('far');
+                        }
+                    });
+                    
+                    // Update rating text
+                    const ratings = {
+                        1: "Poor",
+                        2: "Fair",
+                        3: "Good",
+                        4: "Very Good",
+                        5: "Excellent"
+                    };
+                    
+                    ratingText.textContent = `You rated: ${ratings[rating]} (${starRepresentation})`;
+                });
+                
+                // Add hover effect
+                star.addEventListener('mouseover', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    
+                    stars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.classList.add('hover');
+                        } else {
+                            s.classList.remove('hover');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseout', function() {
+                    stars.forEach(s => {
+                        s.classList.remove('hover');
+                    });
+                });
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                const message = document.getElementById('message').value.trim();
+                let isValid = true;
+                
+                if (message === '') {
+                    messageError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    messageError.style.display = 'none';
+                }
+                
+                if (selectedRating === 0) {
+                    alert('Please select a rating before submitting.');
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    return;
+                }
+                
+                // Disable submit button to prevent multiple submissions
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Submitting...';
+                
+                // Create FormData object
+                const formData = new FormData(form);
+                
+                // Send data to Formspree
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Show thank you message
+                        reviewForm.style.display = 'none';
+                        thankYou.style.display = 'block';
+                    } else {
+                        throw new Error('Form submission failed');
+                    }
+                })
+                .catch(error => {
+                    alert('There was a problem submitting your review. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Review';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
