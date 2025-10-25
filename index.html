@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Restaurant Review</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe0c2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.2);
+            overflow: hidden;
+            border: 1px solid #ffd8b1;
+            margin: 0 auto;
+            flex-grow: 1;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #ff8c00, #ffa94d);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .form-container {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ffe0c2;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: #fffaf0;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #ff8c00;
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .star {
+            font-size: 2.5rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+            margin: 0 5px;
+        }
+        
+        .star:hover {
+            transform: scale(1.2);
+        }
+        
+        .star.selected {
+            color: #ff8c00;
+        }
+        
+        .rating-text {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #666;
+            min-height: 24px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #ff8c00, #ffa94d);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .thank-you {
+            text-align: center;
+            padding: 40px 20px;
+            display: none;
+        }
+        
+        .thank-you h2 {
+            color: #ff8c00;
+            margin-bottom: 15px;
+        }
+        
+        .thank-you p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .emoji {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        
+        .orange-decoration {
+            height: 8px;
+            background: linear-gradient(to right, #ff8c00, #ffa94d);
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        
+        /* Footer thank you message */
+        .footer-thank-you {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.1);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .footer-thank-you h3 {
+            color: #ff8c00;
+            margin-bottom: 10px;
+        }
+        
+        .footer-thank-you p {
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .container {
+                flex-grow: 1;
+                margin-bottom: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .form-container {
+                padding: 20px 15px;
+            }
+            
+            .star {
+                font-size: 2rem;
+                margin: 0 3px;
+            }
+            
+            .footer-thank-you {
+                margin-top: 15px;
+                padding: 15px;
+            }
+        }
+        
+        @media (max-height: 700px) {
+            .container {
+                margin-top: 10px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .star-rating {
+                margin: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Share your experience with Orange restaurant</h1>
+            <p>We value your feedback to help us improve</p>
+        </div>
+        
+        <div class="form-container">
+            <form id="reviewForm" action="https://docs.google.com/forms/d/e/1FAIpQLScp3Ec2LhfBmKAODy_PeQEFldwpLolkpMCll9dNyZ3mMZ_ZLg/formResponse" method="POST">
+                <div class="form-group">
+                    <label for="contact">Email Id / Mobile No</label>
+                    <input type="text" id="contact" name="entry.940457794" placeholder="Enter your email or mobile number" required>
+                </div>
+                
+                <div class="orange-decoration"></div>
+                
+                <div class="form-group">
+                    <label>Overall Rating</label>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-rating="1"><i class="far fa-star"></i></span>
+                        <span class="star" data-rating="2"><i class="far fa-star"></i></span>
+                        <span class="star" data-rating="3"><i class="far fa-star"></i></span>
+                        <span class="star" data-rating="4"><i class="far fa-star"></i></span>
+                        <span class="star" data-rating="5"><i class="far fa-star"></i></span>
+                    </div>
+                    <div class="rating-text" id="ratingText">Please select a rating</div>
+                    <input type="hidden" id="rating" name="entry.1232498463" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="review">Your Review</label>
+                    <textarea id="review" name="entry.1798131061" placeholder="Tell us about your dining experience at Orange restaurant..." required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </form>
+        </div>
+        
+        <div class="thank-you" id="thankYou">
+            <div class="emoji">🍊</div>
+            <h2>Thank You!</h2>
+            <p>We appreciate you taking the time to share your experience with us. Your feedback helps us improve our services.</p>
+        </div>
+    </div>
+
+    <!-- Thank you message at the bottom -->
+    <div class="footer-thank-you">
+        <h3>We Appreciate Your Feedback</h3>
+        <p>Your reviews help us maintain our high standards and continue providing excellent service at Orange Restaurant.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('reviewForm');
+            const thankYou = document.getElementById('thankYou');
+            const starContainer = document.getElementById('starRating');
+            const stars = document.querySelectorAll('.star');
+            const ratingInput = document.getElementById('rating');
+            const ratingText = document.getElementById('ratingText');
+            
+            // Rating descriptions
+            const ratingDescriptions = {
+                1: "Poor - We're sorry to hear that",
+                2: "Fair - We'll work to improve",
+                3: "Good - We're glad you enjoyed",
+                4: "Very Good - We're delighted!",
+                5: "Excellent - Outstanding experience!"
+            };
+            
+            let currentRating = 0;
+            let isSelecting = false;
+            
+            // Function to update stars display
+            function updateStars(rating) {
+                stars.forEach((star, index) => {
+                    const starValue = parseInt(star.getAttribute('data-rating'));
+                    if (starValue <= rating) {
+                        star.innerHTML = '<i class="fas fa-star"></i>';
+                        star.classList.add('selected');
+                    } else {
+                        star.innerHTML = '<i class="far fa-star"></i>';
+                        star.classList.remove('selected');
+                    }
+                });
+                
+                // Update rating text
+                if (rating > 0) {
+                    ratingText.textContent = ratingDescriptions[rating];
+                } else {
+                    ratingText.textContent = "Please select a rating";
+                }
+            }
+            
+            // Handle star rating with improved event handling
+            starContainer.addEventListener('mousedown', function(e) {
+                isSelecting = true;
+                const star = e.target.closest('.star');
+                if (star) {
+                    const rating = parseInt(star.getAttribute('data-rating'));
+                    currentRating = rating;
+                    ratingInput.value = rating;
+                    updateStars(rating);
+                }
+            });
+            
+            starContainer.addEventListener('mouseover', function(e) {
+                if (!isSelecting) return;
+                
+                const star = e.target.closest('.star');
+                if (star) {
+                    const rating = parseInt(star.getAttribute('data-rating'));
+                    updateStars(rating);
+                }
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isSelecting = false;
+            });
+            
+            // For touch devices
+            starContainer.addEventListener('touchstart', function(e) {
+                isSelecting = true;
+                const star = e.target.closest('.star');
+                if (star) {
+                    const rating = parseInt(star.getAttribute('data-rating'));
+                    currentRating = rating;
+                    ratingInput.value = rating;
+                    updateStars(rating);
+                }
+            });
+            
+            starContainer.addEventListener('touchmove', function(e) {
+                if (!isSelecting) return;
+                
+                const touch = e.touches[0];
+                const element = document.elementFromPoint(touch.clientX, touch.clientY);
+                const star = element ? element.closest('.star') : null;
+                
+                if (star) {
+                    const rating = parseInt(star.getAttribute('data-rating'));
+                    updateStars(rating);
+                }
+            });
+            
+            document.addEventListener('touchend', function() {
+                isSelecting = false;
+            });
+            
+            // Handle form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate rating
+                if (!ratingInput.value) {
+                    alert('Please select a rating');
+                    return;
+                }
+                
+                // Show thank you message
+                form.style.display = 'none';
+                thankYou.style.display = 'block';
+                
+                // Submit the form to Google Forms
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
